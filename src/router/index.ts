@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import EventListView from '@/views/EventListView.vue';
-import LayoutView from '@/views/event/LayoutView.vue';
-import CountyDetailView from '@/views/event/CountyDetailView.vue';
-import OlympicDetailView from '@/views/event/OlympicDetailView.vue';
-import NetworkErrorView from '@/views/NetworkErrorView.vue';
+import { createRouter, createWebHistory } from 'vue-router'
+import EventListView from '@/views/EventListView.vue'
+import LayoutView from '@/views/event/LayoutView.vue'
+import CountyDetailView from '@/views/event/CountyDetailView.vue'
+import OlympicDetailView from '@/views/event/OlympicDetailView.vue'
+import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import nProgress from 'nprogress'
 
@@ -17,7 +17,7 @@ const router = createRouter({
       props: (route) => ({
         page: parseInt(route.query.page?.toString() || '1'),
         pageSize: parseInt(route.query.pageSize?.toString() || '4')
-      }),
+      })
     },
     {
       path: '/event/:id',
@@ -25,20 +25,20 @@ const router = createRouter({
       component: LayoutView,
       props: true,
       children: [
-       {
-         path: '',
-         name: 'event-detail-view',
-         component: CountyDetailView,
-         props: true,
-       },
-       {
-         path: 'olympicdetail',
-         name: 'event-olympicdetail-view',
-         component: OlympicDetailView,
-         props: true
-       }
+        {
+          path: '',
+          name: 'event-detail-view',
+          component: CountyDetailView,
+          props: true
+        },
+        {
+          path: 'olympicdetail',
+          name: 'event-olympicdetail-view',
+          component: OlympicDetailView,
+          props: true
+        }
       ]
-     },
+    },
     {
       path: '/network-error',
       name: 'network-error-view',
@@ -71,4 +71,4 @@ router.afterEach(() => {
   nProgress.done()
 })
 
-export default router;
+export default router

@@ -2,12 +2,22 @@
 import { defineProps } from 'vue';
 import type { OlympicsDetail } from '@/types';
 
+
+
+
 const props = defineProps<{
     olympicsdetail: OlympicsDetail
 }>();
 </script>
 
 <template>
+  <div>
+    <!-- TODO -->
+    <country-flag country='th' size='big'/>
+  </div>
+  
+
+
   <RouterLink class="olympic-link" :to="{ name: 'event-detail-view', params: { id: props.olympicsdetail.id.toString() }}">
     <div class="OlympicsDetail-card">
       <h2>{{ props.olympicsdetail.name }}</h2>
