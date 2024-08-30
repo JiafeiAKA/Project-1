@@ -11,27 +11,18 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div>
-    <!-- TODO -->
-    <country-flag country='th' size='big'/>
+  <div class="w-full flex items-left justify-between">
+ <div class="flex flex-col items-left ">
+  <div class="flex items-left mb-2 ">
+    <country-flag :country="props.olympicsdetail.symbol" size='big'/>
+    <div class="w-96">{{ props.olympicsdetail.name }}</div>
   </div>
-  
-
-
-  <RouterLink class="olympic-link" :to="{ name: 'event-detail-view', params: { id: props.olympicsdetail.id.toString() }}">
-    <div class="OlympicsDetail-card">
-      <h2>{{ props.olympicsdetail.name }}</h2>
-      <span>
-        Gold Medals {{ props.olympicsdetail.gold_medals }} |
-        Silver Medals {{ props.olympicsdetail.silver_medals }} |
-        Bronze Medals {{ props.olympicsdetail.bronze_medals }}
-      </span>
-    </div>
-  </RouterLink>
+  </div>
+</div>
 </template>
 
 <style scoped>
-.OlympicsDetail-card {
+/* .OlympicsDetail-card {
     padding: 20px;
     width: 250px;
     cursor: pointer;
@@ -45,5 +36,5 @@ const props = defineProps<{
 .olympic-link {
   text-decoration: none;
   color: #2c3e50;
-}
+} */
 </style>
