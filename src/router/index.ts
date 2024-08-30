@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import EventListView from '@/views/EventListView.vue'
+import MedalListView from '@/views/MedalListView.vue'
 import LayoutView from '@/views/event/LayoutView.vue'
 import CountyDetailView from '@/views/event/CountyDetailView.vue'
 import OlympicDetailView from '@/views/event/OlympicDetailView.vue'
@@ -13,7 +13,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'Event-List-View',
-      component: EventListView,
+      component: MedalListView,
       props: (route) => ({
         page: parseInt(route.query.page?.toString() || '1'),
         pageSize: parseInt(route.query.pageSize?.toString() || '4')

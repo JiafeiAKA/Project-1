@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, useRoute, useRouter } from 'vue-router';
 import { ref } from 'vue';
+import NavbarHomeView from './components/NavbarHomeView.vue';
+
 
 const pageSizes = [2, 4, 6, 8, 10];
 const pageSize = ref(pageSizes[1]);
@@ -19,9 +21,11 @@ const updatePageSize = () => {
   <div id="layout">
     <header>
       <div class="wrapper">
-        <nav>
+        <NavbarHomeView />
+        
+        <!-- <nav>
           <RouterLink :to="{ name: 'Event-List-View', query:{ pageSize: pageSize} }">Home</RouterLink>
-        </nav>
+        </nav> -->
         <div>
           <label for="page-size">Events per page</label>
           <select id="page-size" v-model="pageSize" @change="updatePageSize">
