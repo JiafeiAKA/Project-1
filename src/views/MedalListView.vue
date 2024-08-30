@@ -7,12 +7,17 @@ import router from '@/router';
 
 const Olympics = ref<OlympicsDetail[] | null>(null);
 const totalEvent = ref(0);
-const page = computed(() => props.page);
+let page = computed(() => props.page);
 const pageSize = computed(() => props.pageSize);
-var totalPage : number = 0;
+var totalPage  = ref(0);
 const hasNextPage = computed(() => {
-  totalPage = Math.ceil(totalEvent.value / pageSize.value);
-  return page.value < totalPage;
+  var total = Math.ceil(totalEvent.value / pageSize.value);  
+  return page.value < total;
+});
+
+const hasNextPrev = computed(() => {
+
+  return page.value > 1 ;
 });
 
 
@@ -27,19 +32,19 @@ const props = defineProps({
   }
 });
 
-onMounted(() => {
-  watchEffect(() => {
-    Olympics.value = null;
-    OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value)
-      .then((response) => {
-        Olympics.value = response.data;
-        totalEvent.value = parseInt(response.headers['x-total-count'], 10);
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });
-  });
-});
+// onMounted(() => {
+//   watchEffect(() => {
+//     Olympics.value = null;
+//     OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value)
+//       .then((response) => {
+//         Olympics.value = response.data;
+//         totalEvent.value = parseInt(response.headers['x-total-count'], 10);
+//       })
+//       .catch((error) => {
+//         console.error('There was an error!', error);
+//       });
+//   });
+// });
 
 //
 
@@ -52,25 +57,39 @@ function setCurrentPage(numPage : number){
         currentPage.value = 1
       }else if(currentPage.value > pageSize.value){
         currentPage.value = pageSize.value
-      }
-
-   console.log(currentPage.value);   
+      }  
    
-     Olympics.value = null;
-    OlympicsDetailService.getOlympicsDetails(pageSize.value, currentPage.value)
-      .then((response) => {
-        Olympics.value = response.data;
-        totalEvent.value = parseInt(response.headers['x-total-count'], 10);
-      })
-      .catch((error) => {
-        console.error('There was an error!', error);
-      });  
-
-      
+    //  Olympics.value = null;
+    // OlympicsDetailService.getOlympicsDetails(pageSize.value, currentPage.value)
+    //   .then((response) => {
+    //     Olympics.value = response.data;
+    //     totalEvent.value = parseInt(response.headers['x-total-count'], 10);
+    //   })
+    //   .catch((error) => {
+    //     console.error('There was an error!', error);
+    //   });        
+    fetchData();
 }
 
 
 
+
+
+async function fetchData() {
+  try {
+    const response = await  OlympicsDetailService.getOlympicsDetails(pageSize.value, currentPage.value);
+    const data = await response.data;
+    Olympics.value = data;
+    totalEvent.value = parseInt(response.headers['x-total-count'], 10);
+    totalPage.value =  Math.ceil(totalEvent.value / pageSize.value);
+    
+   
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+fetchData();
 
 
 </script>
@@ -88,16 +107,17 @@ function setCurrentPage(numPage : number){
 
     <li>
      
+     
       <RouterLink class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
        id="page-prev" :to="{ name: 'Event-List-View', query: { page: page - 1, pageSize: pageSize } }" rel="prev"  :is="page<=1" :event="page<=1 ? '' : 'click'">&#60; Prev</RouterLink>
     </li>
     
     <li v-for="index in totalPage" v-bind:key="index">
-      <div @click="setCurrentPage(index)" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{index}}</div>
+      <div @click="setCurrentPage(index)" class="cursor-pointer flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{index}}</div>
     </li>
     <li>
-      <RouterLink class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-      id="page-next" :to="{ name: 'Event-List-View', query: { page: page + 1, pageSize: pageSize } }" rel="next" v-if="hasNextPage">Next &#62;</RouterLink>
+   <RouterLink class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+      id="page-next" :to="{ name: 'Event-List-View', query: { page: page + 1, pageSize: pageSize } }" rel="next" v-if="hasNextPage">Next &#62;</RouterLink> 
   
     </li>
   </ul>
