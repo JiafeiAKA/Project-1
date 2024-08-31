@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import NavbarHomeView from './components/NavbarHomeView.vue';
 
 
+
 const pageSizes = [2, 4, 6, 8, 10];
 const pageSize = ref(pageSizes[1]);
 const router = useRouter();
@@ -18,24 +19,35 @@ const updatePageSize = () => {
 </script>
 
 <template>
-  <div id="layout">
-    <header>
-      <div class="wrapper">
-        <NavbarHomeView />
-        
-        <!-- <nav>
-          <RouterLink :to="{ name: 'Event-List-View', query:{ pageSize: pageSize} }">Home</RouterLink>
-        </nav> -->
-        <div>
-          <label for="page-size">Events per page</label>
-          <select id="page-size" v-model="pageSize" @change="updatePageSize">
-            <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
-          </select>
-        </div>
-      </div>
-    </header>
-    <RouterView />
+
+
+  <header >
+     
+ 
+    <NavbarHomeView />       
+
+  
+ <!-- <nav>
+   <RouterLink :to="{ name: 'Event-List-View', query:{ pageSize: pageSize} }">Home</RouterLink>
+ </nav> -->
+ 
+
+</header>    
+
+ <main>
+  <div class="flex justify-center items-center"> 
+    <div class="bg-gray-100 p-4 rounded-md"> 
+      <label for="page-size">Events per page</label>
+    <select id="page-size" v-model="pageSize" @change="updatePageSize">
+      <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+    </select>
   </div>
+</div>
+  <RouterView />
+ </main>
+  
+  
+    
 </template>
 
 <style>
