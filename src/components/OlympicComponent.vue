@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
-import type { OlympicsDetail } from '@/types';
+import type { Detail, OlympicsDetail } from '@/types';
 
 const isShowDetail = ref(false);
+
+
 
 
 function showDetail(){
@@ -14,17 +16,15 @@ function showDetail(){
 const props = defineProps<{
     olympicsdetail: OlympicsDetail
 }>();
+
+const details : Detail[] = props.olympicsdetail.detail;
+
+
 </script>
 
+
 <template>
-  <!-- <div class="w-full flex items-left justify-between">
- <div class="flex flex-col items-left ">
-  <div class="flex items-left mb-2 ">
-    <country-flag :country="props.olympicsdetail.symbol" size='big'/>
-    <div class="w-96">{{ props.olympicsdetail.name }}</div>
-  </div>
-  </div>
-</div> -->
+ 
 
 <div class="flex items-center border-b py-2 mx-10 justify-around">
     
@@ -36,16 +36,39 @@ const props = defineProps<{
        
       <div class="w-20 px-2 text-base font-medium text-left">{{ props.olympicsdetail.name }}</div>
    
-      <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.gold_medals}}</div>
-      <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.silver_medals }}</div>
-      <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.bronze_medals }}</div>
-      <div class="w-8 px-2 text-sm cursor-pointer  " @click="showDetail">+</div>
+      <div class="w-8 px-2 text-md">{{ props.olympicsdetail.gold_medals}}</div>
+      <div class="w-8 px-2 text-md">{{ props.olympicsdetail.silver_medals }}</div>
+      <div class="w-8 px-2 text-md">{{ props.olympicsdetail.bronze_medals }}</div>
+      <div class="w-8 px-2 text-md cursor-pointer  " @click="showDetail">+</div>
     
   </div>
 
-  <!-- <div  :class="[ isShowDetail ? 'top-[390%]' : 'top-0']">
-    <div> test </div>
-  </div> -->
+  
+
+    
+  <div v-if="isShowDetail">
+    <div class="flex items-center border-b py-2 mx-10 justify-around bg-stone-400">
+      <div class="w-[10%] px-2 text-sm">Name</div>
+      <div class="w-8 px-2 text-sm">Gender</div>
+      <div class="w-[10%] px-2 text-sm">Sport</div>
+      <div class="w-8 px-2 text-sm" >Medal</div>
+    </div>
+
+    <div   v-for="detail in details" v-bind:key="detail.gender">   
+   
+    <div class="flex items-center border-b py-2 mx-10 justify-around">
+      <div class="w-[10%] px-2 text-sm">{{ detail.name }}</div>
+      <div class="w-8 px-2 text-sm">{{ detail.gender }}</div>
+      <div class="w-[10%] px-2 text-sm">{{ detail.sport }}</div>
+      <div class="w-8 px-2 text-sm" >{{ detail.medal  }}</div>
+    </div>
+
+ 
+
+</div>
+  </div>
+
+ 
 </template>
 
 <style scoped>
