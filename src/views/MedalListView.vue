@@ -78,7 +78,7 @@ fetchData();
 
   <div class="min-h-screen flex flex-col items-center">
       <footer class="py-4 fixed bottom-0  ">
-        <PagnitationComponent :page="1" :page-size="pageSize"/>
+        <PagnitationComponent :page="page" :page-size="pageSize"/>
       </footer>
     </div>
 

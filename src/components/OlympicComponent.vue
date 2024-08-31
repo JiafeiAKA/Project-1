@@ -1,8 +1,14 @@
 <script setup lang="ts">
-import { defineProps } from 'vue';
+import { defineProps, ref } from 'vue';
 import type { OlympicsDetail } from '@/types';
 
+const isShowDetail = ref(false);
 
+
+function showDetail(){
+  isShowDetail.value = !isShowDetail.value;
+  console.log(isShowDetail.value);
+}
 
 
 const props = defineProps<{
@@ -33,9 +39,13 @@ const props = defineProps<{
       <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.gold_medals}}</div>
       <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.silver_medals }}</div>
       <div class="w-8 px-2 text-sm">{{ props.olympicsdetail.bronze_medals }}</div>
-      <div class="w-8 px-2 text-sm">+</div>
+      <div class="w-8 px-2 text-sm cursor-pointer  " @click="showDetail">+</div>
     
   </div>
+
+  <!-- <div  :class="[ isShowDetail ? 'top-[390%]' : 'top-0']">
+    <div> test </div>
+  </div> -->
 </template>
 
 <style scoped>
