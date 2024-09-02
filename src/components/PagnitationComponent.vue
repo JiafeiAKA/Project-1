@@ -63,7 +63,6 @@ const props = defineProps({
 async function fetchData() {
   try {
     const response = await  OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value);
-    const data = await response.data;
 
     totalEvent.value = parseInt(response.headers['x-total-count'], 10);
        

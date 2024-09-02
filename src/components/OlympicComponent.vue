@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { defineProps, ref } from 'vue';
 import type { Detail, OlympicsDetail } from '@/types';
+import { useRouter } from 'vue-router';
+
 
 const isShowDetail = ref(false);
 
+const router = useRouter();
 
+function navigateToCountryDetail(id :number){
+  router.push({name : 'event-layout-view',params : {id}});
+}
 
 
 function showDetail(){
@@ -31,7 +37,7 @@ const details : Detail[] = props.olympicsdetail.detail;
     <div class="w-4 text-sm font-medium text-gray-900">{{ props.olympicsdetail.id }}</div>
    
     <div class="w-8 px-2">
-      <country-flag :country="props.olympicsdetail.symbol" size='big'/>
+      <country-flag :country="props.olympicsdetail.symbol" size='big' class="cursor-pointer" @click="navigateToCountryDetail(1)"/>
     </div>
        
       <div class="w-20 px-2 text-base font-medium text-left">{{ props.olympicsdetail.name }}</div>

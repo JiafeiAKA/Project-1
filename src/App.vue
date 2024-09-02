@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, useRoute, useRouter } from 'vue-router';
-import { ref } from 'vue';
+// import { RouterLink, useRoute, useRouter } from 'vue-router';
+// import { ref } from 'vue';
 import NavbarHomeView from './components/NavbarHomeView.vue';
 
 
 
-const pageSizes = [2, 4, 6, 8, 10];
-const pageSize = ref(pageSizes[1]);
-const router = useRouter();
-const route = useRoute();
+// const pageSizes = [2, 4, 6, 8, 10];
+// const pageSize = ref(pageSizes[1]);
+// const router = useRouter();
+// const route = useRoute();
 
-const updatePageSize = () => {
-  router.push({
-    name: 'Event-List-View',
-    query: { ...route.query, pageSize: pageSize.value, page: 1 }
-  });
-};
+// const updatePageSize = () => {
+//   router.push({
+//     name: 'Event-List-View',
+//     query: { ...route.query, pageSize: pageSize.value, page: 1 }
+//   });
+// };
 </script>
 
 <template>
@@ -35,14 +35,14 @@ const updatePageSize = () => {
 </header>    
 
  <main>
-  <div class="flex justify-center items-center"> 
+ <!-- <div class="flex justify-center items-center"> 
     <div class="bg-gray-100 p-4 rounded-md"> 
       <label for="page-size">Events per page</label>
     <select id="page-size" v-model="pageSize" @change="updatePageSize">
       <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
     </select>
   </div>
-</div>
+</div>  -->
   <RouterView />
  </main>
   

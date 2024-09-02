@@ -1,21 +1,22 @@
 <script setup  lang="ts">
 import OlympicComponent from '@/components/OlympicComponent.vue';
 import type { OlympicsDetail } from '@/types';
-import { ref, onMounted, computed, watchEffect, defineComponent } from 'vue';
+import { ref, onMounted, computed, watchEffect, defineComponent, inject } from 'vue';
 import OlympicsDetailService from '@/services/OlympicsDetailService';
 import HeaderListComponent from '@/components/HeaderListComponent.vue';
 import PagnitationComponent from '@/components/PagnitationComponent.vue';
+import ChoosePageSizeComponent from '@/components/ChoosePageSizeComponent.vue';
 
 const Olympics = ref<OlympicsDetail[] | null>(null);
 const totalEvent = ref(0);
+
 let page = computed<number>(() => props.page);
 const pageSize = computed<number>(() => props.pageSize);
+
+// const pageSizes = [2, 4, 6, 8, 10];
+// const pageSize = ref(pageSizes[1]);
 var totalPage  =  computed<number>(() =>    Math.ceil(totalEvent.value / pageSize.value));
 
-const hasNextPage = computed(() => {
-  var total = Math.ceil(totalEvent.value / pageSize.value);  
-  return page.value < total;
-});
 
 
 const props = defineProps({
@@ -45,6 +46,8 @@ onMounted(() => {
 
 
 
+
+
 async function fetchData() {
   try {
     const response = await  OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value);
@@ -60,10 +63,20 @@ async function fetchData() {
 fetchData();
 
 
+
+
+
+
 </script>
 
 <template>
+
+  <ChoosePageSizeComponent />
+ 
+
   <h1 class="flex justify-center items-center py-4">Olympics</h1>
+
+
 
   <div>
     <HeaderListComponent/>
@@ -74,11 +87,9 @@ fetchData();
     
   </div>
 
-
-
   <div class="min-h-screen flex flex-col items-center">
       <footer class="py-4 fixed bottom-0  ">
-        <PagnitationComponent :page="page" :page-size="pageSize"/>
+        <PagnitationComponent :page="page" :pageSize="pageSize"/>
       </footer>
     </div>
 
