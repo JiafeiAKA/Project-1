@@ -29,5 +29,6 @@ export interface Comments {
 }
 
 export interface CommentDetail {
+  username: string
   comment: string
 }

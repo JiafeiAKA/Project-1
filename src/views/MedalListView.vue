@@ -1,7 +1,7 @@
-<script setup  lang="ts">
+<script setup lang="ts">
 import OlympicComponent from '@/components/OlympicComponent.vue';
 import type { OlympicsDetail } from '@/types';
-import { ref, onMounted, computed, watchEffect, defineComponent, inject } from 'vue';
+import { ref, onMounted, computed, watchEffect } from 'vue';
 import OlympicsDetailService from '@/services/OlympicsDetailService';
 import HeaderListComponent from '@/components/HeaderListComponent.vue';
 import PagnitationComponent from '@/components/PagnitationComponent.vue';
@@ -15,7 +15,7 @@ const pageSize = computed<number>(() => props.pageSize);
 
 // const pageSizes = [2, 4, 6, 8, 10];
 // const pageSize = ref(pageSizes[1]);
-var totalPage  =  computed<number>(() =>    Math.ceil(totalEvent.value / pageSize.value));
+var totalPage = computed<number>(() => Math.ceil(totalEvent.value / pageSize.value));
 
 
 
@@ -50,11 +50,11 @@ onMounted(() => {
 
 async function fetchData() {
   try {
-    const response = await  OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value);
+    const response = await OlympicsDetailService.getOlympicsDetails(pageSize.value, page.value);
     const data = await response.data;
     Olympics.value = data;
     totalEvent.value = parseInt(response.headers['x-total-count'], 10);
-       
+
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -72,30 +72,30 @@ fetchData();
 <template>
 
   <ChoosePageSizeComponent />
- 
+
 
   <h1 class="flex justify-center items-center py-4">Olympics</h1>
 
 
 
   <div>
-    <HeaderListComponent/>
+    <HeaderListComponent />
   </div>
 
-  <div >
-    <OlympicComponent v-for="olympic in Olympics" :key="olympic.id" :olympicsdetail="olympic"/>
-    
+  <div>
+    <OlympicComponent v-for="olympic in Olympics" :key="olympic.id" :olympicsdetail="olympic" />
+
   </div>
 
   <div class="min-h-screen flex flex-col items-center">
-      <footer class="py-4 fixed bottom-0  ">
-        <PagnitationComponent :page="page" :pageSize="pageSize"/>
-      </footer>
-    </div>
+    <footer class="py-4 fixed bottom-0  ">
+      <PagnitationComponent :page="page" :pageSize="pageSize" />
+    </footer>
+  </div>
 
-   
 
-  
+
+
 
 
 </template>
@@ -103,6 +103,4 @@ fetchData();
 
 
 
-<style scoped>
-
-</style>
+<style scoped></style>

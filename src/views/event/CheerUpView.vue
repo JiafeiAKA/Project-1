@@ -25,19 +25,31 @@
         </form>
     </div>
 
+    <div>
+        <ul>
+            <li v-for="comment in filteredComments" :key="comment.comment">
+                <CommentCheerUpComponent :username="comment.username" :comment="comment.comment" />
+            </li>
+        </ul>
+    </div>
+
 </template>
 
 <script setup lang="ts">
 
-import CommentService from '@/services/CommentService';
 import OlympicsDetailService from '@/services/OlympicsDetailService';
 import type { CommentDetail, Comments, OlympicsDetail } from '@/types';
-import { ref } from 'vue';
+import { useCounterStore, commentStore } from '@/stores/counter';
+import { computed, ref } from 'vue';
+import CommentCheerUpComponent from '@/components/CommentCheerUpComponent.vue';
 
 const countryDetail = ref<OlympicsDetail[] | null>(null);
 const countryName = ref("");
 const userName = ref("");
 const comment = ref("");
+
+// const { count, increment } = useCounterStore();
+const { comments, addComment } = commentStore();
 
 
 const submitComment = () => {
@@ -45,19 +57,20 @@ const submitComment = () => {
     console.log(userName.value);
     console.log(comment.value);
 
-    const commentDetail: CommentDetail = {
-        comment: comment.value
+    const commentDetailV: CommentDetail = {
+        comment: comment.value,
+        username: userName.value
     }
 
-    const comments: Comments = {
+    const commentsV: Comments = {
         id: 1,
-        comments: [commentDetail],
+        comments: [commentDetailV],
         country: countryName.value
 
     }
 
-    CommentService.postComment(comments);
 
+    addComment(commentsV);
 
 }
 
@@ -67,8 +80,21 @@ const chooseCountry = () => {
     console.log(countryName.value)
 }
 
-async function fetchData() {
+const filteredComments = computed(() => {
+    const com = comments.filter(comment => comment.country === countryName.value);
 
+
+    const empty: CommentDetail[] = [];
+
+
+
+    return com[0]?.comments ?? empty;
+
+}
+)
+
+
+async function fetchData() {
 
     try {
         const response = await OlympicsDetailService.getAllCountry();
