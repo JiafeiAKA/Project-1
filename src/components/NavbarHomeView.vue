@@ -5,7 +5,8 @@
         </div>
         <nav class="flex flex-col md:flex-row gap-4 md:gap-10 px-6 md:static absolute bg-white md:bg-transparent shadow-md md:shadow-none md:w-auto md:my-0 left-0 w-full 
         duration-500"
-         :class="[ open ? 'top-0' : 'top-[-390%]']">
+         :class="[ open ? 'top-0' : 'top-[-390%]']"
+         @click="navigateToCheerup">
             <router-link to="/" class="text-slate-500 hover:text-slate-700 text-lg font-medium bg-white rounded-full p-4">Cheer Up !!!</router-link>
        
         </nav>
@@ -17,14 +18,19 @@
 
 <script setup lang="ts">
 
-import { RouterLink } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 import {ref} from 'vue';
-
+const router = useRouter();
 const open= ref(false);
 
 const menuOpen = ()=>{
     open.value = !open.value
 }
+
+const navigateToCheerup=()=>{
+  router.push({name : 'cheer-up'});
+}
+
 
 </script>
 

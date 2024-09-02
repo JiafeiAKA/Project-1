@@ -6,6 +6,7 @@ import OlympicDetailView from '@/views/event/OlympicDetailView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import nProgress from 'nprogress'
+import CheerUpView from '@/views/event/CheerUpView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -18,6 +19,11 @@ const router = createRouter({
         page: parseInt(route.query.page?.toString() || '1'),
         pageSize: parseInt(route.query.pageSize?.toString() || '4')
       })
+    },
+    {
+      path: '/cheerup',
+      name: 'cheer-up',
+      component: CheerUpView
     },
     {
       path: '/event/:id',

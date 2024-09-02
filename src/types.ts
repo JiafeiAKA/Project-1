@@ -21,3 +21,13 @@ export interface CountryDetail {
   capital: string
   traditional_food: string
 }
+
+export interface Comments {
+  country: string
+  id: number
+  comments: CommentDetail[]
+}
+
+export interface CommentDetail {
+  comment: string
+}
