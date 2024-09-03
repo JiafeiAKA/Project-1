@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import type { CommentDetail, Comments } from '@/types'
+import type { CommentDetail, Comments, OlympicsDetail } from '@/types'
 
 export const useCounterStore = defineStore('counter', () => {
   const count = ref(0)
@@ -31,4 +31,14 @@ export const commentStore = defineStore('comments', () => {
   }
 
   return { comments, addComment }
+})
+
+export const detailCountry = defineStore('detailCountry', () => {
+  const detail = ref<OlympicsDetail | null>(null)
+
+  function setDetail(d: OlympicsDetail) {
+    detail.value = d
+  }
+
+  return { setDetail, detail }
 })

@@ -39,7 +39,7 @@
 
 import OlympicsDetailService from '@/services/OlympicsDetailService';
 import type { CommentDetail, Comments, OlympicsDetail } from '@/types';
-import { useCounterStore, commentStore } from '@/stores/counter';
+import { commentStore } from '@/stores/counter';
 import { computed, ref } from 'vue';
 import CommentCheerUpComponent from '@/components/CommentCheerUpComponent.vue';
 

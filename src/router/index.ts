@@ -7,6 +7,8 @@ import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import nProgress from 'nprogress'
 import CheerUpView from '@/views/event/CheerUpView.vue'
+import SportList from '@/views/event/SportListView.vue'
+import SportListView from '@/views/event/SportListView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,13 +28,23 @@ const router = createRouter({
       component: CheerUpView
     },
     {
+      path: '/countrydetail/:id',
+      name: 'country-detail',
+      component: CountyDetailView
+    },
+    {
+      path: '/sportlist/:id',
+      name: 'sport-list',
+      component: SportListView
+    },
+    {
       path: '/event/:id',
       name: 'event-layout-view',
       component: LayoutView,
       props: true,
       children: [
         {
-          path: '',
+          path: 'detail/:id',
           name: 'event-detail-view',
           component: CountyDetailView,
           props: true

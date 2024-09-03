@@ -15,7 +15,7 @@ const pageSize = computed<number>(() => props.pageSize);
 
 // const pageSizes = [2, 4, 6, 8, 10];
 // const pageSize = ref(pageSizes[1]);
-var totalPage = computed<number>(() => Math.ceil(totalEvent.value / pageSize.value));
+// var totalPage = computed<number>(() => Math.ceil(totalEvent.value / pageSize.value));
 
 
 

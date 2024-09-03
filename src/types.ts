@@ -1,3 +1,5 @@
+import type { RouteParamsGeneric } from 'vue-router'
+
 export interface OlympicsDetail {
   id: number
   name: string

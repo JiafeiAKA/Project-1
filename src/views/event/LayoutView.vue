@@ -1,82 +1,106 @@
 <script setup lang="ts">
-import { ref, onMounted, defineProps } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
-import type { CountryDetail, OlympicsDetail } from '@/types'
-import CountryDetailService from '@/services/CountryDetailService'
-import OlympicsDetailService from '@/services/OlympicsDetailService'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import type { OlympicsDetail } from '@/types'
+import { detailCountry } from '@/stores/counter'
+
 
 const olympicsdetail = ref<OlympicsDetail | null>(null)
-const countrydetail = ref<CountryDetail | null>(null)
-const props = defineProps({
-    id: {
-        type: String,
-        required: true
-    }
-})
-const router = useRouter()
+const router = useRouter();
 
-onMounted(() => {
-    OlympicsDetailService.getOlympicsDetailById(parseInt(props.id))
-        .then(response => {
-            olympicsdetail.value = response.data
-        })
-        .catch((error) => {
-            if (error.response && error.response.status === 404) {
-                router.push({ name: '404-resource-view', params: { resource: 'event' } })
-            } else {
-                router.push({ name: 'network-error-view' })
-            }
-        })
 
-    CountryDetailService.getCountryDetail(parseInt(props.id))
-        .then(response => {
-            countrydetail.value = response.data
-        })
-        .catch((error) => {
-            console.error('There was an error fetching country details:', error)
-        })
-})
+
+
+const { detail } = detailCountry()
+
+var totalMedal = computed<number>(() => {
+    const gold = Number(detail?.gold_medals ?? 0)
+    const silver = Number(detail?.silver_medals ?? 0)
+    const beonze = Number(detail?.bronze_medals ?? 0)
+
+    return gold + silver + beonze;
+});
+
+
+
+
+const navigateCountryDetail = () => {
+
+    router.push({
+        name: 'country-detail', params: { id: detail?.id ?? 1 }
+    });
+}
+
+
+
+
+const navigateToSportList = () => {
+
+    router.push({
+        name: 'sport-list', params: { id: detail?.id ?? 1 }
+    });
+
+}
+
+
+olympicsdetail.value = detail;
+
 </script>
 
 <template>
-    <div class="bg-white shadow-md rounded-lg px-4 py-6 mx-10">
-        <div class="flex items-center justify-between mb-4">
-            <h2 class="text-lg font-medium text-gray-900">CountryDetail</h2>
-            <span class="text-sm text-gray-500">id: {{ countrydetail?.id }}</span>
+    <div class="px-8 space-y-6">
+        <div class="p-4 rounded bg-white text-blue-500">
+            <h2 class="text-2xl font-bold">{{ olympicsdetail?.name }}</h2>
+            <p>Welcome to the {{ olympicsdetail?.name }} detail page. Explore the details and sports involved in this
+                grand event.</p>
+            <div class="flex space-x-4 mt-4">
+                <button class="bg-blue-500 text-white hover:bg-blue-100 rounded px-4 py-2"
+                    @click="navigateCountryDetail">{{ detail?.name }}
+                    Details</button>
+                <button class="bg-blue-500 text-white hover:bg-blue-100 rounded px-4 py-2"
+                    @click="navigateToSportList">Sport List</button>
+            </div>
         </div>
-        <div class="grid grid-cols-1 gap-4">
-            <div class="flex items-center">
-                <i class="w-6 mr-2 text-gray-400 bi bi-bank2 icon-country-detail" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                </i>
-                <p class="text-gray-700 px-6">City Name: {{ countrydetail?.capital }}</p>
-            </div>
-            <div class="flex items-center">
-                <i class="w-6 mr-2 text-gray-400 bi bi-people-fill icon-country-detail" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                </i>
-                <p class="text-gray-700 px-6">Population : {{ countrydetail?.population }}</p>
-            </div>
+        <!--  -->
 
-            <div class="flex items-center">
-                <i class="w-6 mr-2 text-gray-400 bi bi-card-text icon-country-detail" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
-                </i>
-                <p class="text-gray-700 px-6">Traition Food : {{ countrydetail?.traditional_food }}</p>
-            </div>
+        <div class="bg-blue-500 text-white p-4 rounded-lg flex items-center justify-between">
 
+            <div>
+                <h2 class="text-2xl font-bold mr-4">{{ detail?.name }}</h2>
+                <p class="text-sm">{{ detail?.symbol }}</p>
+            </div>
+            <div>
+                <country-flag :country="detail?.symbol" size='big' class="h-12 w-auto" />
+            </div>
         </div>
+        <!--  -->
+
+        <div class="bg-blue-100 p-4 rounded-lg">
+            <h2 class="text-2xl font-bold mb-4">Medal Count</h2>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="bg-yellow-100 text-center py-8 rounded-lg">
+                    <p class="text-4xl font-bold">{{ detail?.gold_medals }}</p>
+                    <p class="text-gray-500">Gold </p>
+                </div>
+                <div class="bg-gray-200 text-center py-8 rounded-lg">
+                    <p class="text-4xl font-bold">{{ detail?.silver_medals }}</p>
+                    <p class="text-gray-500">Silver </p>
+                </div>
+                <div class="bg-orange-100 text-center py-8 rounded-lg">
+                    <p class="text-4xl font-bold">{{ detail?.bronze_medals }}</p>
+                    <p class="text-gray-500">Bronze </p>
+                </div>
+                <div class="bg-blue-200 text-center py-8 rounded-lg">
+                    <p class="text-4xl font-bold">{{ totalMedal }}</p>
+                    <p class="text-gray-500">Total</p>
+                </div>
+            </div>
+        </div>
+
+        <!--  -->
 
     </div>
-    <!-- <div v-if="olympicsdetail && countrydetail">
-        <h1>{{ olympicsdetail.name }}</h1>
 
-        <nav>
-            <RouterLink :to="{ name: 'event-detail-view' }">CountryDetail</RouterLink> |
-            <RouterLink :to="{ name: 'event-olympicdetail-view' }">OlympicDetail</RouterLink>
-        </nav>
-        <RouterView :countrydetail="countrydetail" />
-    </div> -->
 </template>
 
 <style>

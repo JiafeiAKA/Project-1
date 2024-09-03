@@ -1,16 +1,4 @@
-<template>
-
-  <div class="flex justify-center items-center">
-    <div class="bg-gray-100 p-4 rounded-md">
-      <label for="page-size">Events per page</label>
-      <select id="page-size" v-model="pageSize" @change="updatePageSize">
-        <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
-      </select>
-    </div>
-  </div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
 
@@ -31,5 +19,19 @@ const updatePageSize = () => {
 
 
 </script>
+
+<template>
+
+  <div class="flex justify-center items-center">
+    <div class="bg-gray-100 p-4 rounded-md">
+      <label for="page-size">Events per page</label>
+      <select id="page-size" v-model="pageSize" @change="updatePageSize">
+        <option v-for="size in pageSizes" :key="size" :value="size">{{ size }}</option>
+      </select>
+    </div>
+  </div>
+</template>
+
+
 
 <style scoped></style>
