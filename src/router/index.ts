@@ -50,9 +50,10 @@ const router = createRouter({
           props: true
         },
         {
-          path: 'olympicdetail',
+          path: 'olympicdetail/:id',
           name: 'event-olympicdetail-view',
-          component: OlympicDetailView,
+          component: SportListView,
+
           props: true
         }
       ]

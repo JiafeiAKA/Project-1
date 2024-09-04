@@ -27,7 +27,7 @@ var totalMedal = computed<number>(() => {
 const navigateCountryDetail = () => {
 
     router.push({
-        name: 'country-detail', params: { id: detail?.id ?? 1 }
+        name: 'event-detail-view', params: { id: detail?.id ?? 1 }
     });
 }
 
@@ -37,7 +37,8 @@ const navigateCountryDetail = () => {
 const navigateToSportList = () => {
 
     router.push({
-        name: 'sport-list', params: { id: detail?.id ?? 1 }
+        // name: 'event-olympicdetail-view', params: { id: detail?.id ?? 1 }
+        name: 'event-olympicdetail-view', params: { id: detail?.id ?? 1 }
     });
 
 }
@@ -98,6 +99,8 @@ olympicsdetail.value = detail;
         </div>
 
         <!--  -->
+        <RouterView />
+
 
     </div>
 
