@@ -1,34 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import OlymoicsDetailService from '@/services/OlympicsDetailService'
-import type { OlympicsDetail } from '@/types'
+import CardSport from '@/components/CardSport.vue';
+import { detailCountry } from '@/stores/counter';
+import type { Detail } from '@/types';
 
-const olympicsDetail = ref<OlympicsDetail | null>(null)
-const route = useRoute()
 
-onMounted(() => {
-    const id = parseInt(route.params.id as string)
-    if (!isNaN(id)) {
-        OlymoicsDetailService.getOlympicsDetailById(id)
-        .then(response => {
-            olympicsDetail.value = response.data
-        })
-        .catch(error => {
-            console.error('Failed to fetch olympic details', error)
-        })
-    }
-})  
+const { detail } = detailCountry()
+const sports: Detail[] | undefined = detail?.detail;
 </script>
 
 <template>
-    <div v-if="olympicsDetail">
-        <div v-for="detail in olympicsDetail.detail" :key="detail.name">
-          <p>Sport: {{ detail.sport }}</p>
-          <p>Gender: {{ detail.gender }}</p>
-          <p>Athlete: {{ detail.name }}</p>
-          <p>Medal: {{ detail.medal }}</p>
-          <br>
+    <div class="container mx-auto px-4 my-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <CardSport v-for="sport in sports" v-bind:key="sport.name" :detail="sport" />
         </div>
     </div>
 </template>

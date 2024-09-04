@@ -2,13 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 import MedalListView from '@/views/MedalListView.vue'
 import LayoutView from '@/views/event/LayoutView.vue'
 import CountyDetailView from '@/views/event/CountyDetailView.vue'
-import OlympicDetailView from '@/views/event/OlympicDetailView.vue'
 import NetworkErrorView from '@/views/NetworkErrorView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import nProgress from 'nprogress'
 import CheerUpView from '@/views/event/CheerUpView.vue'
-import SportList from '@/views/event/SportListView.vue'
-import SportListView from '@/views/event/SportListView.vue'
+import OlympicDetailView from '@/views/event/OlympicDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,16 +26,6 @@ const router = createRouter({
       component: CheerUpView
     },
     {
-      path: '/countrydetail/:id',
-      name: 'country-detail',
-      component: CountyDetailView
-    },
-    {
-      path: '/sportlist/:id',
-      name: 'sport-list',
-      component: SportListView
-    },
-    {
       path: '/event/:id',
       name: 'event-layout-view',
       component: LayoutView,
@@ -52,7 +40,7 @@ const router = createRouter({
         {
           path: 'olympicdetail/:id',
           name: 'event-olympicdetail-view',
-          component: SportListView,
+          component: OlympicDetailView,
 
           props: true
         }

@@ -37,7 +37,7 @@ const navigateCountryDetail = () => {
 const navigateToSportList = () => {
 
     router.push({
-        // name: 'event-olympicdetail-view', params: { id: detail?.id ?? 1 }
+
         name: 'event-olympicdetail-view', params: { id: detail?.id ?? 1 }
     });
 
